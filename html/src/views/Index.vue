@@ -1,10 +1,12 @@
 <template>
     <div class="libra-index">
         <div class="libra-cards">
-            <Card v-for="count in 100" :key="count">
-                <img :src="`http://www.thiswaifudoesnotexist.net/example-${count * 1000}.jpg`">
+            <Card v-for="count in 90"
+                  :key="count"
+                  :img="`http://www.thiswaifudoesnotexist.net/example-${count * 1000}.jpg`"
+                  to="http://www.baidu.com">
+                测试测试
             </Card>
-
         </div>
     </div>
 </template>
