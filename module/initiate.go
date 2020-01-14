@@ -19,6 +19,4 @@ func (initiate) SetUp() {
 	yutil.NotIgnore()
 }
 
-
-
 var InitiateModule = initiate{}

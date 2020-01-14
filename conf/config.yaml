@@ -14,8 +14,7 @@ server:
 
 log:
   level: debug
-  outFile:
-  timeformat: "2006-01-02 15:04:05"
+  out:
 
 redis:
   addr: 127.0.0.1:6379
@@ -25,17 +24,6 @@ redis:
   idleTimeout: 60
 
 redis_key:
-  tag: "iyu:tag"
-  quanta: "iyu:quanta"
-  category: "iyu:category"
-  user: "iyu:user"
-  global_visit: "iyu:global:visit"
-  article_visit: "iyu:article:visit:"
-  article_like: "iyu:article:like:"
-  cmnt_like: "iyu:cmnt:like:"
-  reply_like: "iyu:reply:like:"
-  article: "iyu:article"
-  token: "iyu:token:"
   iyu: "iyu:"
 
 db:

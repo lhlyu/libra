@@ -1,10 +1,10 @@
 package util
 
 import (
-	"bytes"
-	"github.com/iris-contrib/go.uuid"
-	"runtime"
-	"strings"
+    "bytes"
+    "github.com/iris-contrib/go.uuid"
+    "runtime"
+    "strings"
 )
 
 func GetGID() string {

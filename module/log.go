@@ -1,6 +1,11 @@
 package module
 
-import "github.com/lhlyu/libra/common"
+import (
+    "context"
+    "github.com/lhlyu/libra/common"
+    "github.com/lhlyu/libra/logger"
+    "github.com/sirupsen/logrus"
+)
 
 type lg struct {
 }
@@ -10,12 +15,57 @@ func (lg) seq() int {
 }
 
 func (lg) SetUp() {
-	common.Ylog = common.NewYlog(common.Cfg.GetString("log.level"),
-		common.Cfg.GetString("log.timeFormat"),
-		common.Cfg.GetString("log.outFile"))
+    common.L = logger.NewEntry()
 }
 
 var LgModule = lg{}
+
+
+type loggerKey struct {
+
+}
+
+
+
+
+
+func WithLogger(ctx context.Context, entry *logrus.Entry) context.Context {
+    entry.WithField("id",1)
+    return context.WithValue(ctx, loggerKey{}, entry)
+}
+
+
+func GetLogger(ctx context.Context) *logrus.Entry {
+    entry := ctx.Value(loggerKey{})
+    if entry == nil {
+        return logger.NewEntry()
+    }
+    return entry.(*logrus.Entry)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
 一个简易的日志格式:

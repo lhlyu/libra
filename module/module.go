@@ -12,23 +12,7 @@ type module struct {
 	seq int
 }
 
-type modules []*module
-
 var mods []*module
-
-// 自定义排序
-func (ms modules) Len() int {
-	return len(ms)
-}
-
-func (ms modules) Swap(i, j int) {
-	ms[i], ms[j] = ms[j], ms[i]
-}
-
-// 升序
-func (ms modules) Less(i, j int) bool {
-	return ms[i].seq < ms[j].seq
-}
 
 func Register(mi ...Module) {
 	for _, m := range mi {
@@ -37,7 +21,10 @@ func Register(mi ...Module) {
 		mod.seq = m.seq()
 		mods = append(mods, mod)
 	}
-	sort.Sort(modules(mods))
+	// 排序
+	sort.SliceStable(mods, func(i, j int) bool {
+        return mods[i].seq < mods[j].seq
+    })
 }
 
 func Init() {
