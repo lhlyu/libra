@@ -14,7 +14,7 @@ server:
 
 log:
   level: debug
-  out: libra.log
+  out: log/libra.log
 
 redis:
   addr: 127.0.0.1:6379

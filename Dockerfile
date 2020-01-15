@@ -3,6 +3,7 @@ MAINTAINER "lhlyu"
 ADD main /app/main
 RUN mkdir /app/conf
 ADD conf/config.yaml /app/conf/config.yaml
+RUN mkdir /app/log
 RUN chmod 777 -R /app
 ENV LANG en_US.UTF-8
 WORKDIR /app

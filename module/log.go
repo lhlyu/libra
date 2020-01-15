@@ -2,8 +2,10 @@ package module
 
 import (
 	"github.com/lhlyu/libra/common"
-	"github.com/sirupsen/logrus"
+    "github.com/lhlyu/yutil"
+    "github.com/sirupsen/logrus"
 	"os"
+    "path"
 )
 
 type lg struct {
@@ -24,6 +26,11 @@ func NewEntry() *logrus.Entry {
 	out := common.Cfg.GetString("log.out")
 	level := common.Cfg.GetString("log.level")
 	if out != "" {
+	    dir := path.Dir(out)
+	    exists := yutil.FileIsExists(dir)
+	    if !exists{
+	        os.MkdirAll(dir,0666)
+        }
 		f, err := os.OpenFile(out, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
 		if err != nil {
 			panic(err)

@@ -16,3 +16,4 @@
 /conf/dev.yaml
 /deploy
 /html/node_modules
+/log
