@@ -1,7 +1,8 @@
 FROM alpine:latest
 MAINTAINER "lhlyu"
 ADD main /app/main
-ADD conf/config.json /app/conf/local.json
+RUN mkdir /app/conf
+ADD conf/config.json /app/conf/config.json
 RUN chmod 777 -R /app
 ENV LANG en_US.UTF-8
 CMD ["/app/main"]
