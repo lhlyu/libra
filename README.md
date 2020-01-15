@@ -31,4 +31,4 @@ go iris12
 
 2. 按图修改
 
-![示例](./img/1.png)
+![示例](https://github.com/lhlyu/libra/blob/master/img/1.png?raw=true)
