@@ -7,6 +7,7 @@ import (
 	"github.com/lhlyu/libra/common"
 	"github.com/lhlyu/libra/util"
 	"github.com/sirupsen/logrus"
+	"strings"
 )
 
 type loggerKey struct{}
@@ -39,5 +40,10 @@ func Log(ctx iris.Context) *logrus.Entry {
 			"position": fmt.Sprintf("%s:%d", funcName, line),
 		})
 	}
+	start := strings.LastIndex(funcName, "/")
+	pkg := strings.SplitN(funcName[start+1:], ".", 2)
+	entry = entry.WithFields(logrus.Fields{
+		"package": pkg[0],
+	})
 	return entry
 }
