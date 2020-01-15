@@ -11,4 +11,4 @@ CMD ["./main"]
 
 # 创建容器运行
 # docker build -t libra .
-# docker run -itd 8080:8080 libra
+# docker run -itd -p 9111:8080 -v /logs/libra-log:/app/log libra
