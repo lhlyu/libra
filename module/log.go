@@ -24,7 +24,7 @@ func NewEntry() *logrus.Entry {
 	out := common.Cfg.GetString("log.out")
 	level := common.Cfg.GetString("log.level")
 	if out != "" {
-		f, err := os.OpenFile(out, os.O_CREATE|os.O_APPEND, 0666)
+		f, err := os.OpenFile(out, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
 		if err != nil {
 			panic(err)
 			return nil
