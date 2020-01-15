@@ -13,7 +13,8 @@ func init() {
 	module.Register(module.CfgModule, // 读取配置 <必须>
 		module.LgModule,       // 日志
 		module.InitiateModule, // 初始化
-		module.TimerModule)    // 启用定时任务
+		module.TimerModule,    // 启用定时任务
+	)
 	module.Init()
 }
 
@@ -35,7 +36,7 @@ func main() {
 		Done: iris.ExecutionOptions{Force: true},
 	})
 
-	app.HandleDir("/","static")
+	//app.HandleDir("/","static")
 
 	router.SetRouter(app)
 

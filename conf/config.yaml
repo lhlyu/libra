@@ -14,7 +14,7 @@ server:
 
 log:
   level: debug
-  out:
+  out: libra.log
 
 redis:
   addr: 127.0.0.1:6379
@@ -32,7 +32,7 @@ db:
     password:
     host: 127.0.0.1
     port: 3306
-    database: lhlyu_blog
+    database: demo
     charset: utf8
     parseTime: true
     maxOpenConns: 1

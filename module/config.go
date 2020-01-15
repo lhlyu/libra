@@ -12,6 +12,7 @@ import (
 
 const Deve_ConfigFilePath = "conf/dev.yaml"
 const Prod_ConfigFilePath = "conf/config.yaml"
+const close = true
 
 type config struct {
 }
@@ -59,7 +60,7 @@ func getConfigFilePath() string {
 
 // 根据开发环境获取配置文件
 func getConfigFileByEnv() string {
-	if os.Getenv("DEV") == "1" {
+	if !close && os.Getenv("DEV") == "1" {
 		return Deve_ConfigFilePath
 	}
 	return Prod_ConfigFilePath

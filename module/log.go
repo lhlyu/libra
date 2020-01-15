@@ -1,10 +1,9 @@
 package module
 
 import (
-    "context"
-    "github.com/lhlyu/libra/common"
-    "github.com/lhlyu/libra/logger"
-    "github.com/sirupsen/logrus"
+	"github.com/lhlyu/libra/common"
+	"github.com/sirupsen/logrus"
+	"os"
 )
 
 type lg struct {
@@ -15,57 +14,35 @@ func (lg) seq() int {
 }
 
 func (lg) SetUp() {
-    common.L = logger.NewEntry()
+	common.L = NewEntry()
 }
 
 var LgModule = lg{}
 
+func NewEntry() *logrus.Entry {
+	lr := logrus.New()
+	out := common.Cfg.GetString("log.out")
+	level := common.Cfg.GetString("log.level")
+	if out != "" {
+		f, err := os.OpenFile(out, os.O_CREATE|os.O_APPEND, 0666)
+		if err != nil {
+			panic(err)
+			return nil
+		}
+		lr.SetOutput(f)
+		lr.SetFormatter(new(logrus.JSONFormatter))
+	}
+	lv, err := logrus.ParseLevel(level)
+	if err != nil {
+		lv = logrus.InfoLevel
+	}
+	lr.SetLevel(lv)
 
-type loggerKey struct {
+	// 这里可以给日志加 hook
 
+	entry := logrus.NewEntry(lr)
+	return entry
 }
-
-
-
-
-
-func WithLogger(ctx context.Context, entry *logrus.Entry) context.Context {
-    entry.WithField("id",1)
-    return context.WithValue(ctx, loggerKey{}, entry)
-}
-
-
-func GetLogger(ctx context.Context) *logrus.Entry {
-    entry := ctx.Value(loggerKey{})
-    if entry == nil {
-        return logger.NewEntry()
-    }
-    return entry.(*logrus.Entry)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
 一个简易的日志格式:
