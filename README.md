@@ -32,3 +32,7 @@ go iris12
 2. 按图修改
 
 ![示例](https://github.com/lhlyu/libra/blob/master/img/1.png?raw=true)
+
+### 一个iris项目模板
+
+[链接](https://github.com/lhlyu/libra/tree/seed)
