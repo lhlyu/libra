@@ -20,7 +20,7 @@ require (
 	github.com/iris-contrib/middleware/tollboothic v0.0.0-20191219204441-78279b78a367
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
-	github.com/kataras/iris/v12 v12.1.3
+	github.com/kataras/iris/v12 v12.1.4
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/lhlyu/yutil v1.0.6
 	github.com/mattn/go-colorable v0.1.4 // indirect

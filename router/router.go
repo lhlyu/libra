@@ -13,7 +13,7 @@ func SetRouter(app *iris.Application) {
 	//
 	//app.Party("/api")
 
-	app.Get("/", func(ctx iris.Context) {
+	app.Get("/index", func(ctx iris.Context) {
 		name := ctx.URLParam("name")
 		logger.Log(ctx).Infoln("hello", name)
 		logger.Log(ctx).Infoln("hi", name)

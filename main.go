@@ -38,7 +38,7 @@ func main() {
 		Done: iris.ExecutionOptions{Force: true},
 	})
 
-	//app.HandleDir("/","static")
+	app.HandleDir("/", "static")
 
 	router.SetRouter(app)
 
