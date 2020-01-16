@@ -47,3 +47,19 @@ func Log(ctx iris.Context) *logrus.Entry {
 	})
 	return entry
 }
+
+func LogSkip(ctx iris.Context, skip int) *logrus.Entry {
+	funcName, _, line := util.CurrentInfo(2 + skip)
+	entry := GetLogger(ctx.Request().Context())
+	if common.Cfg.GetString("log.level") == "debug" {
+		entry = entry.WithFields(logrus.Fields{
+			"position": fmt.Sprintf("%s:%d", funcName, line),
+		})
+	}
+	start := strings.LastIndex(funcName, "/")
+	pkg := strings.SplitN(funcName[start+1:], ".", 2)
+	entry = entry.WithFields(logrus.Fields{
+		"package": pkg[0],
+	})
+	return entry
+}

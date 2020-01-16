@@ -1,18 +1,22 @@
 package controller
 
 import (
-    "github.com/iris-contrib/middleware/jwt"
-    "github.com/kataras/iris/v12"
-    "github.com/lhlyu/libra/common"
-    "github.com/lhlyu/libra/response"
-    "time"
+	"github.com/iris-contrib/middleware/jwt"
+	"github.com/kataras/iris/v12"
+	"github.com/lhlyu/libra/common"
+	"github.com/lhlyu/libra/logger"
+	"github.com/lhlyu/libra/response"
+	"github.com/lhlyu/yutil"
+	"gopkg.in/go-playground/validator.v9"
+	"time"
 )
 
 type controller struct {
-
 }
 
-func (c controller) getParams(ctx iris.Context, v interface{}) bool {
+var validate = validator.New()
+
+func (c controller) getParams(ctx iris.Context, v interface{}, check bool) bool {
 	// 根据方法获取参数
 	// GET  -   query params
 	// POST/PUT/DELETE  - body param
@@ -20,6 +24,7 @@ func (c controller) getParams(ctx iris.Context, v interface{}) bool {
 	switch method {
 	case "GET":
 		if err := ctx.ReadQuery(v); err != nil {
+			logger.LogSkip(ctx, 1).WithField("error", err.Error()).Error()
 			ctx.JSON(response.IllegalParam)
 			return false
 		}
@@ -28,14 +33,24 @@ func (c controller) getParams(ctx iris.Context, v interface{}) bool {
 		switch contentType {
 		case "application/json":
 			if err := ctx.ReadJSON(v); err != nil {
+				logger.LogSkip(ctx, 1).WithField("error", err.Error()).Error()
 				ctx.JSON(response.IllegalParam)
 				return false
 			}
 		case "application/x-www-form-urlencoded":
 			if err := ctx.ReadForm(v); err != nil {
+				logger.LogSkip(ctx, 1).WithField("error", err.Error()).Error()
 				ctx.JSON(response.IllegalParam)
 				return false
 			}
+		}
+	}
+	logger.LogSkip(ctx, 1).WithField("params", yutil.JsonObjToStr(v)).Debugln()
+	if check {
+		if err := validate.Struct(v); err != nil {
+			logger.LogSkip(ctx, 1).WithField("error", err.Error()).Error()
+			ctx.JSON(response.IllegalParam)
+			return false
 		}
 	}
 	return true
@@ -52,7 +67,7 @@ iat: 签发时间
 jti: 唯一身份标识
 */
 func (c controller) getToken(ctx iris.Context, m map[string]interface{}) string {
-	itv := common.Cfg.GetInt("jwt.itv")  // 时间间隔
+	itv := common.Cfg.GetInt("jwt.itv") // 时间间隔
 	now := time.Now()
 	m["iat"] = now.Unix()
 	m["nbf"] = now.Unix()
@@ -62,4 +77,3 @@ func (c controller) getToken(ctx iris.Context, m map[string]interface{}) string 
 	tokenString, _ := token.SignedString([]byte(common.Cfg.GetString("jwt.secret")))
 	return tokenString
 }
-
