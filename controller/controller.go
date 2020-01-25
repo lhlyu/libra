@@ -1,17 +1,18 @@
 package controller
 
 import (
-	"github.com/iris-contrib/middleware/jwt"
-	"github.com/kataras/iris/v12"
-	"github.com/lhlyu/libra/common"
-	"github.com/lhlyu/libra/logger"
-	"github.com/lhlyu/libra/response"
-	"github.com/lhlyu/yutil"
-	"gopkg.in/go-playground/validator.v9"
-	"time"
+    "github.com/iris-contrib/middleware/jwt"
+    "github.com/kataras/iris/v12"
+    "github.com/lhlyu/libra/common"
+    "github.com/lhlyu/libra/logger"
+    "github.com/lhlyu/libra/response"
+    "github.com/lhlyu/yutil"
+    "gopkg.in/go-playground/validator.v9"
+    "time"
 )
 
 type controller struct {
+
 }
 
 var validate = validator.New()
@@ -20,11 +21,11 @@ func (c controller) getParams(ctx iris.Context, v interface{}, check bool) bool 
 	// 根据方法获取参数
 	// GET  -   query params
 	// POST/PUT/DELETE  - body param
-	method := ctx.Method()
-	switch method {
-	case "GET":
-		if err := ctx.ReadQuery(v); err != nil {
-			logger.LogSkip(ctx, 1).WithField("error", err.Error()).Error()
+    method := ctx.Method()
+    switch method {
+    case "GET":
+        if err := ctx.ReadQuery(v); err != nil {
+            logger.LogSkip(ctx, 1).WithField("error", err.Error()).Error()
 			ctx.JSON(response.IllegalParam)
 			return false
 		}
@@ -77,3 +78,4 @@ func (c controller) getToken(ctx iris.Context, m map[string]interface{}) string 
 	tokenString, _ := token.SignedString([]byte(common.Cfg.GetString("jwt.secret")))
 	return tokenString
 }
+

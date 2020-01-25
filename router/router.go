@@ -1,8 +1,8 @@
 package router
 
 import (
-	"github.com/kataras/iris/v12"
-	"github.com/lhlyu/libra/logger"
+    "github.com/kataras/iris/v12"
+    "github.com/lhlyu/libra/controller"
 )
 
 func SetRouter(app *iris.Application) {
@@ -13,11 +13,8 @@ func SetRouter(app *iris.Application) {
 	//
 	//app.Party("/api")
 
-	app.Get("/index", func(ctx iris.Context) {
-		name := ctx.URLParam("name")
-		logger.Log(ctx).Infoln("hello", name)
-		logger.Log(ctx).Infoln("hi", name)
-		ctx.Text("hello %s", name)
-	})
+	ctr := &controller.IndexController{}
+
+	app.Get("/index", ctr.Hello)
 
 }

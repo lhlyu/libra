@@ -1,12 +1,12 @@
 FROM alpine:latest
 MAINTAINER "lhlyu"
-ADD main /app/main
-RUN mkdir /app/conf
-ADD conf/config.yaml /app/conf/config.yaml
-RUN mkdir /app/log
+WORKDIR /app
+ADD main ./main
+RUN mkdir conf
+ADD conf/config.yaml conf/config.yaml
+RUN mkdir log
 RUN chmod 777 -R /app
 ENV LANG en_US.UTF-8
-WORKDIR /app
 CMD ["./main"]
 
 # 创建容器运行
