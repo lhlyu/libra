@@ -1,4 +1,4 @@
-package response
+package result
 
 import (
 	"fmt"
@@ -52,10 +52,10 @@ func (r *R) WithPage(page *common.Page, data interface{}) *R {
 
 func (r *R) AddMsg(msg ...interface{}) *R {
 	nr := r.new()
-	if nr.Msg == ""{
-	    nr.Msg = fmt.Sprint(msg)
-	    return nr
-    }
+	if nr.Msg == "" {
+		nr.Msg = fmt.Sprint(msg)
+		return nr
+	}
 	nr.Msg += ":" + fmt.Sprint(msg...)
 	return nr
 }

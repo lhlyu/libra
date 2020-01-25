@@ -1,8 +1,8 @@
 package router
 
 import (
-    "github.com/kataras/iris/v12"
-    "github.com/lhlyu/libra/controller"
+	"github.com/kataras/iris/v12"
+	"github.com/lhlyu/libra/controller"
 )
 
 func SetRouter(app *iris.Application) {

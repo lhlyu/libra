@@ -2,11 +2,11 @@ package middleware
 
 import (
 	"github.com/iris-contrib/middleware/cors"
-	"github.com/kataras/iris/v12/context"
+	"github.com/kataras/iris/v12"
 	"time"
 )
 
-func Cors() context.Handler {
+func Cors() iris.Handler {
 	return cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"Content-Type"},
