@@ -7,6 +7,7 @@ import (
 	"github.com/lhlyu/libra/logger"
 	"github.com/lhlyu/libra/result"
 	"gopkg.in/go-playground/validator.v9"
+	"strings"
 	"time"
 )
 
@@ -29,14 +30,13 @@ func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) b
 		}
 	case "POST", "PUT", "DELETE":
 		contentType := ctx.GetHeader("Content-Type")
-		switch contentType {
-		case "application/json":
+		if strings.Contains(contentType, "application/json") {
 			if err := ctx.ReadJSON(v); err != nil {
 				c.errlog(ctx, err)
 				ctx.JSON(result.IllegalParam)
 				return false
 			}
-		case "application/x-www-form-urlencoded":
+		} else if strings.Contains(contentType, "application/x-www-form-urlencoded") {
 			if err := ctx.ReadForm(v); err != nil {
 				c.errlog(ctx, err)
 				ctx.JSON(result.IllegalParam)
