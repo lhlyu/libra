@@ -23,7 +23,7 @@ func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) b
 	switch method {
 	case "GET":
 		if err := ctx.ReadQuery(v); err != nil {
-			c.Error(ctx, err)
+			c.errlog(ctx, err)
 			ctx.JSON(result.IllegalParam)
 			return false
 		}
@@ -32,13 +32,13 @@ func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) b
 		switch contentType {
 		case "application/json":
 			if err := ctx.ReadJSON(v); err != nil {
-				c.Error(ctx, err)
+				c.errlog(ctx, err)
 				ctx.JSON(result.IllegalParam)
 				return false
 			}
 		case "application/x-www-form-urlencoded":
 			if err := ctx.ReadForm(v); err != nil {
-				c.Error(ctx, err)
+				c.errlog(ctx, err)
 				ctx.JSON(result.IllegalParam)
 				return false
 			}
@@ -46,7 +46,7 @@ func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) b
 	}
 	if check {
 		if err := validate.Struct(v); err != nil {
-			c.Error(ctx, err)
+			c.errlog(ctx, err)
 			ctx.JSON(result.IllegalParam)
 			return false
 		}
@@ -76,9 +76,17 @@ func (c BaseController) getToken(ctx iris.Context, m map[string]interface{}) str
 	return tokenString
 }
 
+// print error log
+func (c BaseController) errlog(ctx iris.Context, err error) {
+	if err == nil {
+		return
+	}
+	logger.GetLogger(ctx.Request().Context(), 2).WithField("error", err.Error()).Error()
+}
+
 func (c BaseController) Error(ctx iris.Context, err error) {
 	if err == nil {
 		return
 	}
-	logger.LogSkip(ctx, 2).WithField("error", err.Error()).Error()
+	logger.GetLogger(ctx.Request().Context(), 1).WithField("error", err.Error()).Error()
 }

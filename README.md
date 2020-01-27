@@ -11,8 +11,9 @@ go iris12
 ├─logger       - 日志
 ├─middleware   - 中间件
 ├─module       - 模块
-├─result      - 统一响应结果
+├─result       - 统一响应结果
 ├─router       - 路由
+├─service      - 服务
 ├─static       - 静态，由vue项目构建而来
 └─util         - 工具
 ```
