@@ -3,7 +3,6 @@ module github.com/lhlyu/libra
 go 1.13
 
 require (
-	github.com/CloudyKit/fastprinter v0.0.0-20170127035650-74b38d55f37a // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/didip/tollbooth v4.0.2+incompatible
 	github.com/fasthttp-contrib/websocket v0.0.0-20160511215533-1f3b11f56072 // indirect
@@ -20,7 +19,7 @@ require (
 	github.com/iris-contrib/middleware/tollboothic v0.0.0-20191219204441-78279b78a367
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
-	github.com/kataras/iris/v12 v12.1.5
+	github.com/kataras/iris/v12 v12.1.6
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/lhlyu/yutil v1.0.6
 	github.com/mattn/go-colorable v0.1.4 // indirect
