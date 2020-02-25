@@ -23,8 +23,8 @@ func Register(mi ...Module) {
 	}
 	// 排序
 	sort.SliceStable(mods, func(i, j int) bool {
-        return mods[i].seq < mods[j].seq
-    })
+		return mods[i].seq < mods[j].seq
+	})
 }
 
 func Init() {

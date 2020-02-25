@@ -4,8 +4,8 @@ import (
 	"github.com/iris-contrib/middleware/jwt"
 	"github.com/kataras/iris/v12"
 	"github.com/lhlyu/libra/common"
-	"github.com/lhlyu/libra/logger"
 	"github.com/lhlyu/libra/result"
+	"github.com/lhlyu/libra/trace"
 	"gopkg.in/go-playground/validator.v9"
 	"strings"
 	"time"
@@ -17,6 +17,7 @@ type BaseController struct {
 var validate = validator.New()
 
 func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) bool {
+	tracker := ctx.Values().Get(trace.TRACKER).(*trace.Tracker)
 	// 根据方法获取参数
 	// GET  -   query params
 	// POST/PUT/DELETE  - body param
@@ -24,7 +25,7 @@ func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) b
 	switch method {
 	case "GET":
 		if err := ctx.ReadQuery(v); err != nil {
-			c.errlog(ctx, err)
+			tracker.Error(err)
 			ctx.JSON(result.IllegalParam)
 			return false
 		}
@@ -32,13 +33,13 @@ func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) b
 		contentType := ctx.GetHeader("Content-Type")
 		if strings.Contains(contentType, "application/json") {
 			if err := ctx.ReadJSON(v); err != nil {
-				c.errlog(ctx, err)
+				tracker.Error(err)
 				ctx.JSON(result.IllegalParam)
 				return false
 			}
 		} else if strings.Contains(contentType, "application/x-www-form-urlencoded") {
 			if err := ctx.ReadForm(v); err != nil {
-				c.errlog(ctx, err)
+				tracker.Error(err)
 				ctx.JSON(result.IllegalParam)
 				return false
 			}
@@ -46,7 +47,7 @@ func (c BaseController) getParams(ctx iris.Context, v interface{}, check bool) b
 	}
 	if check {
 		if err := validate.Struct(v); err != nil {
-			c.errlog(ctx, err)
+			tracker.Error(err)
 			ctx.JSON(result.IllegalParam)
 			return false
 		}
@@ -74,19 +75,4 @@ func (c BaseController) getToken(ctx iris.Context, m map[string]interface{}) str
 	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims(m))
 	tokenString, _ := token.SignedString([]byte(common.Cfg.GetString("jwt.secret")))
 	return tokenString
-}
-
-// print error log
-func (c BaseController) errlog(ctx iris.Context, err error) {
-	if err == nil {
-		return
-	}
-	logger.GetLogger(ctx.Request().Context(), 2).WithField("error", err.Error()).Error()
-}
-
-func (c BaseController) Error(ctx iris.Context, err error) {
-	if err == nil {
-		return
-	}
-	logger.GetLogger(ctx.Request().Context(), 1).WithField("error", err.Error()).Error()
 }

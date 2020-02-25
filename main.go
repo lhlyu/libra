@@ -24,7 +24,7 @@ func main() {
 
 	app := iris.New()
 
-	// 前置
+	// 前置中间件
 	app.Use(middleware.Before())
 	app.Use(recover.New())
 	app.Use(middleware.Limiter()) // 限制每秒访问数量
@@ -38,6 +38,7 @@ func main() {
 		Done: iris.ExecutionOptions{Force: true},
 	})
 
+	// 静态资源
 	app.HandleDir("/", "static")
 
 	router.SetRouter(app)

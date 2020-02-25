@@ -1,25 +1,32 @@
 package service
 
 import (
-	"context"
 	"fmt"
+	"github.com/kataras/iris/v12"
+	"github.com/lhlyu/libra/dao"
 	"github.com/lhlyu/libra/result"
+	"github.com/lhlyu/libra/trace"
 )
 
 type IndexService struct {
 	BaseService
 }
 
-func NewIndexService(ctx context.Context) *IndexService {
+func NewIndexService(ctx iris.Context) *IndexService {
+	tracker := ctx.Values().Get(trace.TRACKER).(*trace.Tracker)
 	return &IndexService{BaseService{
-		Ctx: ctx,
+		ITracker: tracker,
 	}}
 }
 
 func (s *IndexService) Hello(name string, age int) *result.R {
-	s.Info(name, age)
-	if age < 18 {
-		return result.Failure.WithData(fmt.Sprintf("%s is not an adult", name))
+	s.Info("IndexService.Hello", name, age)
+	d := dao.NewIndexDao(s.ITracker)
+	v := d.Query(name)
+	s.Debug(fmt.Sprintf("%s is real age is %d", name, v))
+	if age > v {
+		s.Info(name, " is real age less than ", age)
+		return result.Failure.WithData(fmt.Sprintf("%s is real age less than %d", name, age))
 	}
-	return result.Success.WithData(fmt.Sprintf("%s is an adult", name))
+	return result.Success.WithData(fmt.Sprintf("%s is real age greater than %d", name, age))
 }
