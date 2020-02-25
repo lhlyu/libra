@@ -1,11 +1,9 @@
 FROM alpine:latest
 MAINTAINER "lhlyu"
 WORKDIR /app
-ADD main ./main
-RUN mkdir conf
-ADD conf/config.yaml conf/config.yaml
-RUN mkdir log
-RUN chmod 777 -R /app
+RUN mkdir conf && mkdir log && chmod 777 -R /app
+COPY main ./main
+COPY conf/config.yaml conf/config.yaml
 ENV LANG en_US.UTF-8
 CMD ["./main"]
 
