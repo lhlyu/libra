@@ -4,6 +4,7 @@ go iris12
 ### 目录
 
 ```text
+├─cache        - 缓存
 ├─common       - 公共
 ├─conf         - 配置
 ├─controller   - 控制器
