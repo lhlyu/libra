@@ -9,6 +9,14 @@ import (
 
 const TRACKER = "TRACKER"
 
+type BaseTracker struct {
+	ITracker
+}
+
+func NewBaseTracker(tracker ITracker) BaseTracker {
+	return BaseTracker{tracker}
+}
+
 type ITracker interface {
 	Info(v ...interface{})             // 普通信息
 	Debug(v ...interface{})            // 调试信息

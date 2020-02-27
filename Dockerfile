@@ -4,7 +4,6 @@ WORKDIR /app
 RUN mkdir conf && mkdir log && chmod 777 -R /app
 COPY main ./main
 COPY conf/config.yaml conf/config.yaml
-ENV LANG en_US.UTF-8
 CMD ["./main"]
 
 # 创建容器运行

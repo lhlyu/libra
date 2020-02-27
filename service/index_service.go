@@ -10,17 +10,15 @@ import (
 )
 
 type IndexService struct {
-	BaseService
+	trace.BaseTracker
 	*cache.IndexCache
 }
 
 func NewIndexService(ctx iris.Context) *IndexService {
 	tracker := ctx.Values().Get(trace.TRACKER).(*trace.Tracker)
 	return &IndexService{
-		BaseService: BaseService{
-			ITracker: tracker,
-		},
-		IndexCache: cache.NewIndexCache(tracker),
+		BaseTracker: trace.NewBaseTracker(tracker),
+		IndexCache:  cache.NewIndexCache(tracker),
 	}
 }
 
