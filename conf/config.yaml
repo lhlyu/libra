@@ -39,11 +39,3 @@ db:
     maxIdleConns: 3
     connMaxLifetime: 30
 
-email:
-  host: smtp.163.com
-  port: 465
-  user: 名字
-  password: SMTP邮箱密码
-  from: 负责发送消息的邮箱
-  to: 接收消息的邮箱
-  subject: 标题
