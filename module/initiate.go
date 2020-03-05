@@ -1,7 +1,7 @@
 package module
 
 import (
-	"github.com/lhlyu/yutil"
+	"github.com/lhlyu/yutil/v2"
 	"log"
 )
 
@@ -15,8 +15,9 @@ func (initiate) seq() int {
 
 func (initiate) SetUp() {
 	log.Println("init initiate module ->")
-	// 工具包不忽略错误
+	// 工具包打印错误
 	yutil.NotIgnore()
+
 }
 
 var InitiateModule = initiate{}

@@ -3,7 +3,7 @@ package module
 import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/lhlyu/libra/common"
-	"github.com/lhlyu/yutil"
+	"github.com/lhlyu/yutil/v2"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -47,7 +47,7 @@ var CfgModule = config{}
 func getConfigFilePath() string {
 	configFile := getConfigFileByEnv()
 	for i := 0; i < 5; i++ {
-		if yutil.FileIsExists(configFile) {
+		if yutil.File.IsExists(configFile) {
 			log.Println("read config file:", configFile)
 			return configFile
 		}

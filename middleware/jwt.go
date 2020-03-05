@@ -5,7 +5,7 @@ import (
 	"github.com/iris-contrib/middleware/jwt"
 	"github.com/kataras/iris/v12"
 	"github.com/lhlyu/libra/common"
-	"github.com/lhlyu/yutil"
+	"github.com/lhlyu/yutil/v2"
 )
 
 /**
@@ -13,7 +13,7 @@ Authorization:bearer xxxxxxxxxxx
 */
 func Jwt() iris.Handler {
 	return func(ctx iris.Context) {
-		ip := yutil.ClientIp(ctx.Request())
+		ip := yutil.IP.ClientIp(ctx.Request())
 		var err error
 		if err = jwt.New(jwt.Config{
 			ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
