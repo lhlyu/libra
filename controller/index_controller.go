@@ -1,12 +1,11 @@
 package controller
 
 import (
-	"github.com/kataras/iris/v12"
 	"github.com/lhlyu/libra/service"
+	"github.com/lhlyu/yutil/v2"
 )
 
 type IndexController struct {
-	BaseController
 }
 
 type HelloParam struct {
@@ -15,11 +14,13 @@ type HelloParam struct {
 }
 
 // http://localhost:8080/index?name=tom&age=12
-func (c *IndexController) Hello(ctx iris.Context) {
+func (c *IndexController) Hello(ctx *Context) {
 	param := &HelloParam{}
-	if !c.getParams(ctx, param, false) {
+	if !ctx.GetParams(param, false) {
 		return
 	}
+	// 打印日志
+	ctx.Info("param:", yutil.Json.Marshal(param))
 	svc := service.NewIndexService(ctx)
 	ctx.JSON(svc.Hello(param.Name, param.Age))
 }

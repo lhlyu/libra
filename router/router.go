@@ -15,6 +15,6 @@ func SetRouter(app *iris.Application) {
 
 	ctr := &controller.IndexController{}
 
-	app.Get("/index", ctr.Hello)
+	app.Get("/index", controller.H(ctr.Hello))
 
 }
