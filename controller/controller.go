@@ -47,7 +47,7 @@ var validate = validator.New()
 // v - 负责接收参数的对象
 // check - 是否校验
 func (ctx *Context) GetParams(v interface{}, check bool) bool {
-	tracker := ctx.Values().Get(trace.TRACKER).(*trace.Tracker)
+	tracker := ctx.GetTracker()
 	// 根据方法获取参数
 	// GET  -   query params
 	// POST/PUT/DELETE  - body param
@@ -105,4 +105,8 @@ func (ctx *Context) GetToken(m map[string]interface{}) string {
 	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims(m))
 	tokenString, _ := token.SignedString([]byte(common.Cfg.GetString("jwt.secret")))
 	return tokenString
+}
+
+func (ctx *Context) GetTracker() *trace.Tracker {
+	return ctx.Values().Get(trace.TRACKER).(*trace.Tracker)
 }

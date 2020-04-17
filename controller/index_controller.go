@@ -21,6 +21,6 @@ func (c *IndexController) Hello(ctx *Context) {
 	}
 	// 打印日志
 	ctx.Info("param:", yutil.Json.Marshal(param))
-	svc := service.NewIndexService(ctx)
+	svc := service.NewIndexService(ctx.GetTracker())
 	ctx.JSON(svc.Hello(param.Name, param.Age))
 }

@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"github.com/kataras/iris/v12"
 	"github.com/lhlyu/libra/cache"
 	"github.com/lhlyu/libra/dao"
 	"github.com/lhlyu/libra/result"
@@ -14,8 +13,7 @@ type IndexService struct {
 	*cache.IndexCache
 }
 
-func NewIndexService(ctx iris.Context) *IndexService {
-	tracker := ctx.Values().Get(trace.TRACKER).(*trace.Tracker)
+func NewIndexService(tracker *trace.Tracker) *IndexService {
 	return &IndexService{
 		BaseTracker: trace.NewBaseTracker(tracker),
 		IndexCache:  cache.NewIndexCache(tracker),
