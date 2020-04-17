@@ -13,7 +13,7 @@ type IndexService struct {
 	*cache.IndexCache
 }
 
-func NewIndexService(tracker *trace.Tracker) *IndexService {
+func NewIndexService(tracker trace.ITracker) *IndexService {
 	return &IndexService{
 		BaseTracker: trace.NewBaseTracker(tracker),
 		IndexCache:  cache.NewIndexCache(tracker),

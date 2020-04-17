@@ -107,6 +107,6 @@ func (ctx *Context) GetToken(m map[string]interface{}) string {
 	return tokenString
 }
 
-func (ctx *Context) GetTracker() *trace.Tracker {
+func (ctx *Context) GetTracker() trace.ITracker {
 	return ctx.Values().Get(trace.TRACKER).(*trace.Tracker)
 }
