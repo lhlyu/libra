@@ -6,6 +6,7 @@ import (
 	"github.com/lhlyu/libra/common"
 	"github.com/lhlyu/libra/result"
 	"github.com/lhlyu/libra/trace"
+	"github.com/lhlyu/yutil/v2"
 	"gopkg.in/go-playground/validator.v9"
 	"strings"
 	"sync"
@@ -47,7 +48,6 @@ var validate = validator.New()
 // v - 负责接收参数的对象
 // check - 是否校验
 func (ctx *Context) GetParams(v interface{}, check bool) bool {
-	tracker := ctx.GetTracker()
 	// 根据方法获取参数
 	// GET  -   query params
 	// POST/PUT/DELETE  - body param
@@ -55,7 +55,7 @@ func (ctx *Context) GetParams(v interface{}, check bool) bool {
 	switch method {
 	case "GET":
 		if err := ctx.ReadQuery(v); err != nil {
-			tracker.Error(err)
+			ctx.Error(err)
 			ctx.JSON(result.IllegalParam)
 			return false
 		}
@@ -63,21 +63,22 @@ func (ctx *Context) GetParams(v interface{}, check bool) bool {
 		contentType := ctx.GetHeader("Content-Type")
 		if strings.Contains(contentType, "application/json") {
 			if err := ctx.ReadJSON(v); err != nil {
-				tracker.Error(err)
+				ctx.Error(err)
 				ctx.JSON(result.IllegalParam)
 				return false
 			}
 		} else if strings.Contains(contentType, "application/x-www-form-urlencoded") {
 			if err := ctx.ReadForm(v); err != nil {
-				tracker.Error(err)
+				ctx.Error(err)
 				ctx.JSON(result.IllegalParam)
 				return false
 			}
 		}
 	}
+	ctx.Debug(ctx.String(), yutil.Json.Marshal(v))
 	if check {
 		if err := validate.Struct(v); err != nil {
-			tracker.Error(err)
+			ctx.Error(err)
 			ctx.JSON(result.IllegalParam)
 			return false
 		}
