@@ -44,7 +44,7 @@ type dbConf struct {
 
 func setDb(c *dbConf) {
 
-	path := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=%t", c.User,
+	path := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=%t&loc=Local", c.User,
 		c.Password,
 		c.Host,
 		c.Port,
