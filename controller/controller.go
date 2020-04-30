@@ -34,7 +34,7 @@ var contextPool = sync.Pool{New: func() interface{} {
 func acquire(original iris.Context) *Context {
 	ctx := contextPool.Get().(*Context)
 	ctx.Context = original
-	ctx.BaseTracker = trace.NewBaseTracker(ctx.Values().Get(trace.TRACKER).(*trace.Tracker))
+	ctx.BaseTracker = trace.NewBaseTracker(ctx.GetTracker())
 	return ctx
 }
 
